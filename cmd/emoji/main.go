@@ -26,10 +26,9 @@ func main() {
 	)
 
 	root := &cobra.Command{
-		Use:     "search [-l limit] [-d maxdistance] [-f char|text|json] [-s skin] query",
+		Use:     "emoji [-l limit] [-d maxdistance] [-f char|text|json] [-s skin] query",
 		Short:   "Look up emojis with a keyword",
-		Aliases: []string{"s"},
-		Example: "search -l 1 rocket",
+		Example: "emoji -l 1 rocket",
 		Args:    cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.SetOut(os.Stdout)
