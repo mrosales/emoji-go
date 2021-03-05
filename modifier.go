@@ -6,7 +6,7 @@ import "fmt"
 type Modifier int
 
 const (
-	skinToneNone        Modifier = iota // no explicit skin tone set
+	SkinToneNone        Modifier = iota // no explicit skin tone set
 	SkinToneLight                       // SkinToneLight represents a light skin tone 👋🏻.
 	SkinToneMediumLight                 // SkinToneMediumLight represents a medium light skin tone 👋🏼.
 	SkinToneMedium                      // SkinToneMedium represents a medium skin tone 👋🏽.
@@ -15,12 +15,14 @@ const (
 )
 
 func NewModifier(text string) (Modifier, error) {
-	m := skinToneNone
+	m := SkinToneNone
 	return m, m.UnmarshalText([]byte(text))
 }
 
 func (m *Modifier) UnmarshalText(text []byte) error {
 	switch string(text) {
+	case "", "none":
+		*m = SkinToneNone
 	case "1F3FB", "light":
 		*m = SkinToneLight
 	case "1F3FC", "medium_light":
@@ -32,7 +34,7 @@ func (m *Modifier) UnmarshalText(text []byte) error {
 	case "1F3FF", "dark":
 		*m = SkinToneDark
 	default:
-		*m = skinToneNone
+		*m = SkinToneNone
 		return fmt.Errorf("unrecognized modifier sequence %s", string(text))
 	}
 	return nil
@@ -40,7 +42,7 @@ func (m *Modifier) UnmarshalText(text []byte) error {
 
 func (m Modifier) String() string {
 	switch m {
-	case skinToneNone:
+	case SkinToneNone:
 		return "none"
 	case SkinToneLight:
 		return "light"
