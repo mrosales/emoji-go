@@ -6,6 +6,7 @@ import (
 	"fmt"
 )
 
+// Info contains metadata about an emoji.
 type Info struct {
 	// Name is the canonical short name.
 	Name string `json:"name"`
@@ -21,6 +22,7 @@ type Info struct {
 	SkinVariations map[Modifier]ImageData `json:"skin_variations,omitempty"`
 }
 
+// ImageData contains the details pertinent to displaying an emoji.
 type ImageData struct {
 	// A hyphen separated sequence of hex-encoded codepoints.
 	// Includes zero-width-joiner character for multi code sequences.
@@ -56,6 +58,7 @@ func (i Info) ImageForModifier(mod Modifier) ImageData {
 }
 
 // String representation of the modifier sequence.
+// Implements the fmt.Stringer interface.
 func (i Info) String() string {
 	return fmt.Sprintf("%s (%s - %s)", i.Character, i.Name, i.Unified)
 }

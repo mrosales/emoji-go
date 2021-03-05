@@ -6,19 +6,29 @@ import "fmt"
 type Modifier int
 
 const (
-	SkinToneNone        Modifier = iota // no explicit skin tone set
-	SkinToneLight                       // SkinToneLight represents a light skin tone 👋🏻.
-	SkinToneMediumLight                 // SkinToneMediumLight represents a medium light skin tone 👋🏼.
-	SkinToneMedium                      // SkinToneMedium represents a medium skin tone 👋🏽.
-	SkinToneMediumDark                  // SkinToneMediumDark represents a medium dark skin tone 👋🏾.
-	SkinToneDark                        // SkinToneDark represents a dark skin tone 👋🏿.
+	// SkinToneNone means no modifier was set.
+	SkinToneNone Modifier = iota
+	// SkinToneLight represents a light skin tone 👋🏻.
+	SkinToneLight
+	// SkinToneMediumLight represents a medium light skin tone 👋🏼.
+	SkinToneMediumLight
+	// SkinToneMedium represents a medium skin tone 👋🏽.
+	SkinToneMedium
+	// SkinToneMediumDark represents a medium dark skin tone 👋🏾.
+	SkinToneMediumDark
+	// SkinToneDark represents a dark skin tone 👋🏿.
+	SkinToneDark
 )
 
+// NewModifier creates a modifier from a string.
+// An empty string is interpreted as `SkinToneNone`.
 func NewModifier(text string) (Modifier, error) {
 	m := SkinToneNone
 	return m, m.UnmarshalText([]byte(text))
 }
 
+// UnmarshalText implements the encoding.TextUnmarshaler interface.
+// This function also determines how a modifier is unmarshaled from JSON.
 func (m *Modifier) UnmarshalText(text []byte) error {
 	switch string(text) {
 	case "", "none":
@@ -40,10 +50,13 @@ func (m *Modifier) UnmarshalText(text []byte) error {
 	return nil
 }
 
+// MarshalText implements the encoding.TextMarshaler interface.
+// This function also determines how a modifier is marshaled to JSON.
 func (m Modifier) MarshalText() ([]byte, error) {
 	return []byte(m.String()), nil
 }
 
+// String implements fmt.Stringer and returns a string representation of the modifier.
 func (m Modifier) String() string {
 	switch m {
 	case SkinToneNone:
@@ -63,19 +76,20 @@ func (m Modifier) String() string {
 	}
 }
 
-func (m Modifier) Unicode() rune {
+// Unicode returns the sequence of unicode runes that represent the modifier.
+func (m Modifier) Unicode() []rune {
 	switch m {
 	case SkinToneLight:
-		return 0x1F3FB
+		return []rune{0x1F3FB}
 	case SkinToneMediumLight:
-		return 0x1F3FC
+		return []rune{0x1F3FC}
 	case SkinToneMedium:
-		return 0x1F3FD
+		return []rune{0x1F3FD}
 	case SkinToneMediumDark:
-		return 0x1F3FE
+		return []rune{0x1F3FE}
 	case SkinToneDark:
-		return 0x1F3FF
+		return []rune{0x1F3FF}
 	default:
-		return 0
+		return nil
 	}
 }

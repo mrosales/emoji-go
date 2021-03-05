@@ -6,6 +6,7 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
+// SearchIndex is allows a keyword-based search of the emoji dataset.
 type SearchIndex struct {
 	options searchOptionSet
 	// keyword from All array
@@ -40,6 +41,12 @@ func NewSearchIndex(opts ...SearchOption) *SearchIndex {
 	}
 }
 
+// Search performs a fuzzy search on the emoji keywords to find a matching symbol.
+// The response array will contain up to the configured limit number of terms that
+// are less than the maximum distance from the search term.
+//
+// Options provided directly to the search term override the defaults passed
+// to NewSearchIndex.
 func (si *SearchIndex) Search(query string, opts ...SearchOption) []Info {
 	ranks := fuzzy.RankFindNormalizedFold(query, si.keywordStrings)
 	sort.Sort(ranks)
@@ -73,14 +80,20 @@ type searchOptionSet struct {
 	Limit       int
 }
 
+// SearchOption represents an option that is used to search the dataset.
 type SearchOption func(option *searchOptionSet)
 
+// WithMaxDistance configures the maximum Levenshtein distance for keyword matches.
+// A 0 value means no maximum distance and the result will always contain the maximum
+// limit of results.
 func WithMaxDistance(maxDistance int) SearchOption {
 	return func(option *searchOptionSet) {
 		option.MaxDistance = maxDistance
 	}
 }
 
+// WithLimit sets the maximum number of results that will be returned.
+// A 0 value means no limit.
 func WithLimit(limit int) SearchOption {
 	return func(option *searchOptionSet) {
 		option.Limit = limit
