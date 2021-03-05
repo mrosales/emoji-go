@@ -67,7 +67,9 @@ emoji --skin medium_dark wave
 ### Updating the dataset
 
 The dataset generation script populates `data.go` in the repo root and can be
-run by executing `go generate` in the repo root. The tag revision in `internal/importer/cdn.go`
+run by executing `go generate` in the repo root.
+
+The tag revision in `cmd/emojigen/internal/importer/cdn.go`
 must be updated to support new emoji versions.
 
 

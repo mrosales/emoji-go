@@ -1,6 +1,6 @@
 package emoji
 
-//go:generate go run ./internal/importer data.go
+//go:generate go run ./cmd/emojigen -dataset data.go
 
 import (
 	"fmt"

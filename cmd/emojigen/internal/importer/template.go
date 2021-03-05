@@ -1,21 +1,15 @@
-package main
+package importer
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"text/template"
 )
 
-var (
-	keywordTemplate = template.Must(template.New("keywords").Funcs(
-		template.FuncMap{
-			"separator":        separator,
-			"quote":            quote,
-			"modifierConstant": modifierConstant,
-		},
-	).Parse(`// Code generated based on latest emoji dataset. DO NOT EDIT.
+const keywordTemplateString = `// Code generated based on latest emoji dataset. DO NOT EDIT.
 
-package emoji
+package {{ .Package }}
 {{- define "image-data" -}}
 { {{ .Unified | quote }}, {{ .Character | quote }}, {{ .SheetX }}, {{ .SheetY }}, {{ .AddedIn | quote }}, map[Platform]bool{ PlatformApple: {{ .HasImgApple }}, PlatformGoogle: {{ .HasImgGoogle }}, PlatformTwitter: {{ .HasImgTwitter }}, PlatformFacebook: {{ .HasImgFacebook }} }, {{ .Obsoletes | quote }}, {{ .ObsoletedBy | quote }} }
 {{- end -}}
@@ -26,8 +20,31 @@ var All = []Info {
 	{ {{.ShortName | quote }}, {{.Category | quote }}, {{ .Text | quote }}, []string{ {{$s := separator ", "}}{{ range .ShortNames }}{{ call $s }}{{ . | quote }}{{ end }} }, ImageData{{ template "image-data" .EmojiImageData }}, {{ with .SkinVariations }}map[Modifier]ImageData{ {{$s := separator ", "}}{{- range $key, $value := . }}{{ call $s }}{{ $key | modifierConstant }}: {{ template "image-data" $value }}{{- end }}}{{else}}nil{{end}} },
 	{{- end }}
 }
-`))
+`
+
+var keywordTemplate = template.Must(
+	template.
+		New("keywords").
+		Funcs(
+			template.FuncMap{
+				"separator":        separator,
+				"quote":            quote,
+				"modifierConstant": modifierConstant,
+			},
+		).
+		Parse(keywordTemplateString),
 )
+
+// RenderTemplate renders the dataset template to the given io.Writer.
+func RenderTemplate(w io.Writer, packageName string, emojis []EmojiInfo) error {
+	return keywordTemplate.Execute(
+		w,
+		map[string]interface{}{
+			"Package": packageName,
+			"Emojis":  emojis,
+		},
+	)
+}
 
 // copied from "github.com/Masterminds/sprig"
 func quote(str ...interface{}) string {
@@ -40,6 +57,7 @@ func quote(str ...interface{}) string {
 	return strings.Join(out, " ")
 }
 
+// copied from "github.com/Masterminds/sprig"
 func strval(v interface{}) string {
 	switch v := v.(type) {
 	case string:

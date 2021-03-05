@@ -1,17 +1,18 @@
-package main
+package importer
 
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"strconv"
 	"strings"
 	"unicode/utf8"
 )
 
-// ParseEmojiData parses emoji information from a JSON dataset.
-func ParseEmojiData(data []byte) ([]EmojiInfo, error) {
+// ParseEmojiData parses emoji information from a JSON reader.
+func ParseEmojiData(r io.Reader) ([]EmojiInfo, error) {
 	var emojis []EmojiInfo
-	if err := json.Unmarshal(data, &emojis); err != nil {
+	if err := json.NewDecoder(r).Decode(&emojis); err != nil {
 		return nil, err
 	}
 
