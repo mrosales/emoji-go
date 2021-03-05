@@ -40,6 +40,10 @@ func (m *Modifier) UnmarshalText(text []byte) error {
 	return nil
 }
 
+func (m Modifier) MarshalText() ([]byte, error) {
+	return []byte(m.String()), nil
+}
+
 func (m Modifier) String() string {
 	switch m {
 	case SkinToneNone:
