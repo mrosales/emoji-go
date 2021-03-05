@@ -27,7 +27,7 @@ func ParseEmojiData(data []byte) ([]EmojiInfo, error) {
 		info.Character = chr
 
 		var alternateNames []string
-		hasName := map[string]bool{info.ShortName: true}
+		hasName := map[string]bool{}
 		for _, keyword := range info.ShortNames {
 			if hasName[keyword] {
 				continue
@@ -35,6 +35,7 @@ func ParseEmojiData(data []byte) ([]EmojiInfo, error) {
 			alternateNames = append(alternateNames, keyword)
 			hasName[keyword] = true
 		}
+		info.ShortNames = alternateNames
 
 		mutatedVariations := map[string]EmojiImageData{}
 		for modifier, variation := range info.SkinVariations {

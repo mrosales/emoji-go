@@ -40,7 +40,7 @@ func main() {
 			results := searcher.Search(query)
 			formatter, ok := formatters[outputFormat]
 			if !ok {
-				cmd.PrintErr("unsupported output format \"%s\"", outputFormat)
+				cmd.PrintErrf("unsupported output format \"%s\"", outputFormat)
 				_ = cmd.Usage()
 				os.Exit(1)
 			}

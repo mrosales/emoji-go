@@ -28,17 +28,3 @@ func DownloadEmojiInfo() ([]EmojiInfo, error) {
 	}
 	return ParseEmojiData(data)
 }
-
-func DownloadSpritesData() ([]byte, error) {
-	resp, err := http.Get(fmt.Sprintf("%s/img/apple/sheets-clean/64.png", emojiCDNURL))
-	if err != nil {
-		return nil, fmt.Errorf("failed loading sprite data: %w", err)
-	}
-	defer func() {
-		_ = resp.Body.Close()
-	}()
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed fetching emoji metadata with status code %d", resp.StatusCode)
-	}
-	return ioutil.ReadAll(resp.Body)
-}
