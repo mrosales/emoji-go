@@ -45,7 +45,6 @@ func main() {
 				os.Exit(1)
 			}
 
-			modifier := emoji.Modifier(0)
 			modifier, err := emoji.NewModifier(skinTone)
 			if err != nil {
 				cmd.PrintErrf("unsupported skin tone %s: %v", skinTone, err)

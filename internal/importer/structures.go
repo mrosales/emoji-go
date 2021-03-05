@@ -8,6 +8,7 @@ import (
 	"unicode/utf8"
 )
 
+// ParseEmojiData parses emoji information from a JSON dataset.
 func ParseEmojiData(data []byte) ([]EmojiInfo, error) {
 	var emojis []EmojiInfo
 	if err := json.Unmarshal(data, &emojis); err != nil {
@@ -59,7 +60,7 @@ func ParseEmojiData(data []byte) ([]EmojiInfo, error) {
 	return output, nil
 }
 
-// Info captures standard emoji attributes for a named and tagged emoji.
+// EmojiInfo captures standard emoji attributes for a named and tagged emoji.
 type EmojiInfo struct {
 	Name       string   `json:"name"`
 	ShortName  string   `json:"short_name"`
@@ -72,7 +73,7 @@ type EmojiInfo struct {
 	SkinVariations map[string]EmojiImageData `json:"skin_variations"`
 }
 
-// ImageData captures standard emoji attributes.
+// EmojiImageData captures standard emoji attributes.
 // These details are shared by both top-level emojis and variations.
 type EmojiImageData struct {
 	// A hyphen separated sequence of hex-encoded codepoints.
