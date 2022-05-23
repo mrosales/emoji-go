@@ -7,10 +7,10 @@
 
 Provides go structures to list or search the latest emoji symbols.
 
-* Emoji data is sourced from [iamcal/emoji-data](emoji-data) (MIT)
-  and pulled from the [JSDelivr CDN](emoji-jsdelivr).
-* Fuzzy searching is provided by [lithammer/fuzzysearch](lithammer-fuzzysearch) (MIT)
-* The current version supports [Emoji version 13 (2020)](unicode-emoji-13)
+* Emoji data is sourced from [iamcal/emoji-data][emoji-data] (MIT)
+  and pulled from the [JSDelivr CDN][emoji-jsdelivr].
+* Fuzzy searching is provided by [lithammer/fuzzysearch][lithammer-fuzzysearch] (MIT)
+* The current version supports [Emoji version 14 (2022)][unicode-emoji-14]
 
 ## Library Usage
 
@@ -76,7 +76,7 @@ must be updated to support new emoji versions.
 [emoji-data]: https://github.com/iamcal/emoji-data
 [emoji-jsdelivr]: https://www.jsdelivr.com/package/npm/emoji-datasource-apple
 [lithammer-fuzzysearch]: https://github.com/lithammer/fuzzysearch
-[unicode-emoji-13]: https://unicode.org/emoji/charts-13.0/emoji-released.html
+[unicode-emoji-14]: https://unicode.org/emoji/charts-14.0/emoji-released.html
 [goreport]: https://goreportcard.com/report/github.com/mrosales/emoji-go
 [goreport-badge]: https://goreportcard.com/badge/github.com/mrosales/emoji-go?style=flat-square
 [godoc]: https://pkg.go.dev/github.com/mrosales/emoji-go
