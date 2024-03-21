@@ -17,7 +17,7 @@ type CDN struct {
 
 // NewCDN creates a new CDN client for emoji data.
 func NewCDN() (*CDN, error) {
-	u, err := url.Parse("https://cdn.jsdelivr.net/npm/emoji-datasource-apple@14.0.0")
+	u, err := url.Parse("https://cdn.jsdelivr.net/npm/emoji-datasource-apple@15")
 	if err != nil {
 		return nil, fmt.Errorf("invalid CDN url: %w", err)
 	}
